@@ -49,6 +49,8 @@ $(document).ready(function() {
                     <p>Alianzas: ${alianzas}</p>  
                     </div>`
                 );
+                
+                $('#resultado').show();
             }
             //Fin success
         })
@@ -58,4 +60,3 @@ $(document).ready(function() {
 })
 //Fin ready
 
-$('#resultado').show();
