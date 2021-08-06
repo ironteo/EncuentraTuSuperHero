@@ -1,47 +1,61 @@
 let esconderResultado = $('#resultado').hide();
 
+
+
 $(document).ready(function() {
-    $('button').on('click', function() {
-        let ingresoUsuario = $('#inputIngresoUsuario').val();
+    $("form").submit(function(event) {
+        event.preventDefault();
 
-        $('#resultado').show();
+        let valorInput = $("#inputIngresoUsuario").val();
+
         $.ajax({
-            type: "GET",
-            url: `https://www.superheroapi.com/api.php/10224949299295623/${ingresoUsuario}`,
-            dataType: "json",
-            success: function(datos) {
-                console.log(ingresoUsuario);
+            url: `https://www.superheroapi.com/api.php/10224949299295623/${valorInput}`,
 
-                $('#imagenSuper')
-                    .append(`<img src="${datos.image.url}" class="h-100 w-100"></img>`);
+            success: function(data) {
+                let imagen = data.image.url;
+                let nombre = data.name;
+                let conexiones = data.connections.relatives;
+                let ocupacion = data.work.occupation;
+                let firtsApation = data.biography;
+                let altura = data.appearance.height[1];
+                let peso = data.appearance.weight[1];
+                let alianzas = data.connections;
 
-                $('#TextoResultado')
-                    .append(`<p class="card-text">Nombre: ${datos.name} 
-                    <br>Conexiones: ${datos.connections.relatives}</p>`)
-                    .append(`<p class="card-text">Ocupacion: ${datos.work.occupation} </p>`)
-                    //.append(`<li class="list-group-item">Primer aparicion: ${datos.biography.first-appearance} </li>`)
-                    .append(`<p class="card-text">Altura: ${datos.appearance.height[1]} </p>`)
-                    .append(`<p class="card-text">Peso: ${datos.appearance.weight[1]} </p>`)
-                    .append(`<p class="card-text">${datos.biography.aliases} </p>`);
+                let intelligence = data.powerstats.intelligence;
+                let strength = data.powerstats.strength;
+                let speed = data.powerstats.speed;
+                let durability = data.powerstats.durability;
+                let power = data.powerstats.power;
+                let combat = data.powerstats.combat;
 
-                //document.getElementById("resultado").innerHTML = `<p>nombre: ${datos.name} </p>`;
-                console.log(datos);
-                console.log(datos.connections.relatives);
-                console.log(datos.image);
-                console.log(datos.work.occupation);
+                $("#imagenSuper").html(
+                    `<img src="${imagen}">`
+                );
 
-                ///////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////
-
-
-                ///////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////////
-            },
-            error: function(error) {
-                console.log(error);
+                $("#TextoResultado").html(`
+                    <div>
+                    <h3>Nombre: ${nombre}</h3>
+                    <hr>
+                    <p>Conexiones: ${conexiones}</p>
+                    <hr>
+                    <p>Ocupacion: ${ocupacion}</p>
+                    <hr>
+                    <p>Primera Aparicion: ${firtsApation}</p>
+                    <hr>
+                    <p>Altaura: ${altura}</p>
+                    <hr>
+                    <p>Peso: ${peso}</p>
+                    <hr>
+                    <p>Alianzas: ${alianzas}</p>  
+                    </div>`
+                );
             }
-        });
+            //Fin success
+        })
+        //Fin ajax
     })
+    //Fin submit
 })
+//Fin ready
+
+$('#resultado').show();
